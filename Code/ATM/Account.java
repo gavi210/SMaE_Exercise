@@ -6,13 +6,18 @@ public class Account {
 	// variables
 	private int customerNumber;
 	private int pinNumber;
+
+	// balances for two different types of accounts -> initial values
+	// should be placed in constructor maybe (name doesn't represent initial value) 
+	// since two different type of methods are used for the two classes -> inheritance and polymorphism for the operations
 	private double checkingBalance = 0;
 	private double savingBalance = 0;
 
+	// best practive for having static variables -> use getter or assign to it once
 	Scanner input = new Scanner(System.in);
 	DecimalFormat moneyFormat = new DecimalFormat("'$'###,##0.00");
 
-	public Account() {
+	public Account() { // provide insights why and when use one constructor instead of another
 	}
 
 	public Account(int customerNumber, int pinNumber) {
@@ -45,6 +50,11 @@ public class Account {
 		return pinNumber;
 	}
 
+	// what is checking balance? what stands for in the code? 
+	// checking done priori to compute the real operation maybe
+
+	// reimplemented -> define interface providing method signature
+	// public double getBalance() and for the others
 	public double getCheckingBalance() {
 		return checkingBalance;
 	}
@@ -53,6 +63,7 @@ public class Account {
 		return savingBalance;
 	}
 
+	// withdraw operations on checking and saving
 	public double calcCheckingWithdraw(double amount) {
 		checkingBalance = (checkingBalance - amount);
 		return checkingBalance;
@@ -63,6 +74,7 @@ public class Account {
 		return savingBalance;
 	}
 
+	// deposit operations
 	public double calcCheckingDeposit(double amount) {
 		checkingBalance = (checkingBalance + amount);
 		return checkingBalance;
@@ -73,16 +85,19 @@ public class Account {
 		return savingBalance;
 	}
 
+	// trasnfer
 	public void calcCheckTransfer(double amount) {
 		checkingBalance = checkingBalance - amount;
 		savingBalance = savingBalance + amount;
 	}
 
+	// swap rows -> immediatly noticable difference in signs 
 	public void calcSavingTransfer(double amount) {
 		savingBalance = savingBalance - amount;
 		checkingBalance = checkingBalance + amount;
 	}
 
+	// if with interface -> store pointers to subaccount type -> access them for the operations desidered
 	public void getCheckingWithdrawInput() {
 		boolean end = false;
 		while (!end) {
@@ -168,6 +183,8 @@ public class Account {
 		}
 	}
 
+	// depending on the transfer type
+	// in implemented account -> methods to preserve consistency 
 	public void getTransferInput(String accType) {
 		boolean end = false;
 		while (!end) {

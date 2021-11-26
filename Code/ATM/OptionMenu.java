@@ -96,7 +96,8 @@ public class OptionMenu {
 				case 3:
 					acc.getCheckingDepositInput();
 					break;
-
+				
+				// hardcoded -> no other option - should be implemented other possibility
 				case 4:
 					acc.getTransferInput("Checkings");
 					break;

@@ -39,7 +39,8 @@ Here will be done by Maximilian
 Infinite loop maybe possible!
 
 ## Account.java
-Here will be done by Riccardo
+Naming conventions for the verbs in the methods found [here](https://stackoverflow.com/questions/7151418/determining-which-verb-to-use-for-method-names-in-java/56702884).
+
 
 ## ATM.java 
 If time done
