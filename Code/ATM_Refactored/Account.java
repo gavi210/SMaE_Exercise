@@ -14,11 +14,6 @@ public class Account {
 	private Scanner input = new Scanner(System.in);
 	private DecimalFormat moneyFormat = new DecimalFormat("'$'###,##0.00");
 
-	public Account(int customerNumber, int pinNumber) {
-		this.customerNumber = customerNumber;
-		this.pinNumber = pinNumber;
-	}
-
 	public Account(int customerNumber, int pinNumber, double checkingBalance, double savingBalance) {
 		this.customerNumber = customerNumber;
 		this.pinNumber = pinNumber;
@@ -105,7 +100,7 @@ public class Account {
 		}
 	}
 
-	public void startWithdrawSequenceForCheckingBalance() {
+	public void startWithdrawSequenceForChecking() {
 		System.out.println("\nCurrent Checkings Account Balance: " + moneyFormat.format(this.checkingBalance));
 
 		double amount;
@@ -128,7 +123,7 @@ public class Account {
 		}
 	}
 
-	public void startWithdrawSequenceForSavingBalance() {
+	public void startWithdrawSequenceForSaving() {
 		System.out.println("\nCurrent Savings Account Balance: " + moneyFormat.format(this.savingBalance));
 
 		double amount;

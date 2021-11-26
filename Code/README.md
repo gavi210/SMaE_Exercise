@@ -52,8 +52,15 @@ Here will be done by Maximilian
 Infinite loop maybe possible!
 
 ## Account.java
-Place here all faults found.
-
+From an initial view of the class emerges that the code is not well structured and no much ***cleaning*** has been done before submitting the code. Lots of code is duplicate and important security threats have not been verified. 
+Follows a more in-depth descsriptions of the defects found.
+| Lines     | Defect                                    | Reccomendations     | Occurrences |
+| --------- | -----------                               | ------------------- | ----------- |
+| 15 - 16   | default constructor would allow to create   
+              empty account with no **pin** and **number**
+              associated                                | Remove it           | 1           |
+| 18 - 21   | constructor will not assign value to 
+              **checkingBalance** and **savingBalance** | Remove it           | 1           |
 ## ATM.java 
 If time done
 
