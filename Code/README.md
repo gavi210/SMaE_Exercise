@@ -30,6 +30,19 @@ Reviewers process will be done as follow:
 3. **Suggestion for Improvements**: reviewer suggest possible code changes.
 4. **Identification of Warnings with automatic tools**: (which tool to be used?) is used to further investigate imperfections in the code.
 
+## Tools for Automatic Code Review
+As suggested in the project specification, the [PMD]() tool is used to discover faults in the code. 
+When running the PMD tool, the following set of predefined code quality dimensions are taken into account:
+- bestpractices
+- codestyle
+- design
+- errorprone
+- documentation
+- performance
+- security
+
+This dimensions could be customized and are specified in the [PMD_RuleSet](/PMD_RuleSet.xml) file.
+
 # Defects Found
 Follows a description of each fault found per java file.
 
@@ -39,14 +52,15 @@ Here will be done by Maximilian
 Infinite loop maybe possible!
 
 ## Account.java
-Naming conventions for the verbs in the methods found [here](https://stackoverflow.com/questions/7151418/determining-which-verb-to-use-for-method-names-in-java/56702884).
-
+Place here all faults found.
 
 ## ATM.java 
 If time done
 
 
 
+
+# Run the code
 To run the project\
 1.Download all the code files (total 3)\
 2.Store them in a single folder\

@@ -17,6 +17,4 @@
     <rule ref="category/java/performance.xml"/>
     <rule ref="category/java/security.xml"/>
 
-    <!-- Your rules will come here -->
-
 </ruleset>
