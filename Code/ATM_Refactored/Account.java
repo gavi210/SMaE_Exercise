@@ -14,9 +14,6 @@ public class Account {
 	private Scanner input = new Scanner(System.in);
 	private DecimalFormat moneyFormat = new DecimalFormat("'$'###,##0.00");
 
-	/*
-	provide description when used one constructor and when the other
-	*/
 	public Account(int customerNumber, int pinNumber) {
 		this.customerNumber = customerNumber;
 		this.pinNumber = pinNumber;
@@ -45,16 +42,32 @@ public class Account {
 		return this.savingBalance;
 	}
 
+	// no setters are implemented, so to increase safety of data
+	
 	/**
 	 * 
 	 * @param amount money to be tranfered
 	 * @throws InvalidOperationException if checking balance < amount
 	 */
-	public void transferMoneyFromCheckingToSaving(double amount) {
+	private void transferMoneyFromCheckingToSaving(double amount) throws InvalidOperationException {
 		if (this.checkingBalance >= amount) { // if enough money to perform the action
 			this.checkingBalance = this.checkingBalance - amount;
 			this.savingBalance = this.savingBalance + amount;
 		}
+		else
+			throw new InvalidOperationException("Not enough money");
+	}
+
+	private void withdrawFromChecking(double amount) throws InvalidOperationException {
+		if (this.checkingBalance >= amount) // if enough money to perform the action
+			this.checkingBalance -= amount;
+		else
+			throw new InvalidOperationException("Not enough money");
+	}
+
+	private void withdrawFromSaving(double amount) throws InvalidOperationException {
+		if (this.savingBalance >= amount)
+			this.checkingBalance -= amount;
 		else
 			throw new InvalidOperationException("Not enough money");
 	}
@@ -103,12 +116,15 @@ public class Account {
 				System.out.println("Exit from withdraw sequence");
 				end = true;
 			}
-			else if (this.checkingBalance > amount) { // already checked amount is positive value
-				this.checkingBalance -= amount;
-				end = true;
+			else {
+				try {
+					withdrawFromChecking(amount);
+					end = true;
+				}
+				catch(InvalidOperationException e) {
+					System.out.println(e);
+				}
 			}
-			else 
-				System.out.println("Not enough money");
 		}
 	}
 
@@ -123,12 +139,15 @@ public class Account {
 				System.out.println("Exit from withdraw sequence");
 				end = true;
 			}
-			else if (this.checkingBalance > amount) { // already checked amount is positive value
-				this.savingBalance -= amount;
-				end = true;
+			else {
+				try {
+					withdrawFromSaving(amount);
+					end = true;
+				}
+				catch(InvalidOperationException e) {
+					System.out.println(e);
+				}
 			}
-			else
-				System.out.println("Not enough money!");
 		}
 	}
 
