@@ -25,11 +25,19 @@ Maximilian Huwyler will analyse the [OptionMenu.java](/ATM/OptionMenu.java) file
 [ATM.java](/ATM/ATM.java) will be investigated together.
 
 Reviewers process will be done as follow:
-1. **Initial Code Overview**: goal is to properly understand the code behaviour
-2. **Identification of Aspects to be improved**: with the knowledge of the code behaviour, lack in code quality could be detected
-3. **Suggestion for Improvements**: reviewer suggest possible code changes.
+1. **Initial Code Overview**: goal is to properly understand the code behaviour,
+2. **Manual identification of aspects to be improved**: with the knowledge of the code behaviour, lack in code quality could be detected. The dimentions of code quality investigated are mentioned below,
+3. **Suggestion for Improvements**: reviewer suggest possible code changes,
 4. **Identification of Warnings with automatic tools**: PMD tool is used to further investigate defects in the code.
-   
+
+## Manually investigated Quality Dimensions
+During the manul review the reviewers will look at: 
+- **Code Clarity**: variable and method name, code organization, indentation,
+- **Ease of Modification**: how easily would be to change the code,
+- **Logic**: are all cases edge cases covered?, correctness of loop and branches, are conditions meaningfull?,
+- **Error Handling**: correctness and soundness of error handling,
+- **Design Decisions**: code structure, architectural patterns used.   
+
 ## PMD
 As suggested in the project specification, the [PMD](https://pmd.github.io) tool is used to discover faults in the code. 
 When running the PMD tool, the following set of predefined code quality dimensions are taken into account:
@@ -42,6 +50,8 @@ When running the PMD tool, the following set of predefined code quality dimensio
 - security
 
 This dimensions could be customized and are specified in the [PMD_RuleSet](/PMD_RuleSet.xml) file.
+
+
 
 # Defects Found
 Follows a description of each fault found per java file.
