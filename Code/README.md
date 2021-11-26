@@ -28,7 +28,20 @@ Reviewers process will be done as follow:
 1. **Initial Code Overview**: goal is to properly understand the code behaviour
 2. **Identification of Aspects to be improved**: with the knowledge of the code behaviour, lack in code quality could be detected
 3. **Suggestion for Improvements**: reviewer suggest possible code changes.
-4. **Identification of Warnings with automatic tools**: (which tool to be used?) is used to further investigate imperfections in the code.
+4. **Identification of Warnings with automatic tools**: PMD tool is used to further investigate defects in the code.
+   
+## PMD
+As suggested in the project specification, the [PMD](https://pmd.github.io) tool is used to discover faults in the code. 
+When running the PMD tool, the following set of predefined code quality dimensions are taken into account:
+- bestpractices
+- codestyle
+- design
+- errorprone
+- documentation
+- performance
+- security
+
+This dimensions could be customized and are specified in the [PMD_RuleSet](/PMD_RuleSet.xml) file.
 
 # Defects Found
 Follows a description of each fault found per java file.
