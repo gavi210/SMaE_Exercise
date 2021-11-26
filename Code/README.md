@@ -56,11 +56,8 @@ From an initial view of the class emerges that the code is not well structured a
 Follows a more in-depth descsriptions of the defects found.
 | Lines     | Defect                                    | Reccomendations     | Occurrences |
 | --------- | -----------                               | ------------------- | ----------- |
-| 15 - 16   | default constructor would allow to create   
-              empty account with no **pin** and **number**
-              associated                                | Remove it           | 1           |
-| 18 - 21   | constructor will not assign value to 
-              **checkingBalance** and **savingBalance** | Remove it           | 1           |
+| 15 - 16   | default constructor would allow to create empty account with no **pin** and **number** associated | Remove it | 1 |
+| 18 - 21   | constructor will not assign value to **checkingBalance** and **savingBalance** | Remove it | 1 |
 ## ATM.java 
 If time done
 
