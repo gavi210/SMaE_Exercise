@@ -58,6 +58,7 @@ Follows a more in-depth descsriptions of the defects found.
 | --------- | -----------                               | ------------------- | ----------- |
 | 15 - 16   | default constructor would allow to create empty account with no **pin** and **number** associated | Remove it | 1 |
 | 18 - 21   | constructor will not assign value to **checkingBalance** and **savingBalance** | Remove it | 1 |
+| 59 - 62   | constructor will not assign value to **checkingBalance** and **savingBalance** | Remove it | 1 |
 ## ATM.java 
 If time done
 
