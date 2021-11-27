@@ -245,7 +245,7 @@ public class Account {
 	/**
 	 * cmd interaction with the user to tranfer money from checkingBalance to savingBalance
 	 */
-	public void startTransferSequenceFromCheckingToSavings() {
+	public void startTransferSequenceFromCheckingToSaving() {
 		double amount;
 		boolean end = false;
 		while(!end) {
