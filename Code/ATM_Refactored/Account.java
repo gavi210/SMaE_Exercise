@@ -75,7 +75,19 @@ public class Account {
 			throw new NotEnoughMoneyException();
 	}
 
-	// tranfer money from saving to checking balance not supported for the type of account 
+	/**
+	 * tranfer an amount of money from savingBalance to checkingBalance
+	 * @param amount money to be tranfered
+	 * @throws InvalidOperationException if saving balance < amount
+	 */
+	private void transferMoneyFromSavingToChecking(double amount) throws NotEnoughMoneyException {
+		if (this.savingBalance >= amount) { // if enough money to perform the action
+			this.savingBalance = this.savingBalance - amount;
+			this.checkingBalance = this.checkingBalance + amount;
+		}
+		else
+			throw new NotEnoughMoneyException();
+	}
 
 	/**
 	 * perform withdraw of money from checkingBalance. It ensures data consistency, since performed
@@ -233,7 +245,7 @@ public class Account {
 	/**
 	 * cmd interaction with the user to tranfer money from checkingBalance to savingBalance
 	 */
-	public void startTransferSequence() {
+	public void startTransferSequenceFromCheckingToSavings() {
 		double amount;
 		boolean end = false;
 		while(!end) {
@@ -245,6 +257,30 @@ public class Account {
 			else {
 				try {
 					transferMoneyFromCheckingToSaving(amount);
+					end = true; // if reaches here, transfer was complete correctly
+				}
+				catch(NotEnoughMoneyException e) {
+					System.out.println("Not enough money, retry!");
+				}
+			}
+		}
+	}
+
+	/**
+	 * cmd interaction with the user to tranfer money from savingsBalance to checkingBalance
+	 */
+	public void startTransferSequenceFromSavingToChecking() {
+		double amount;
+		boolean end = false;
+		while(!end) {
+			amount  = getAmount("\nCurrent Savings Account Balance: " + moneyFormat.format(this.savingBalance), POSITIVE_VALUE);
+			if (amount == -1) {
+				System.out.println("Exit from tranfer sequence");
+				end = true;
+			}
+			else {
+				try {
+					transferMoneyFromSavingToChecking(amount);
 					end = true; // if reaches here, transfer was complete correctly
 				}
 				catch(NotEnoughMoneyException e) {
