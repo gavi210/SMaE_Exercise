@@ -1,7 +1,0 @@
-71:	LocalVariableCouldBeFinal:	Local variable 'str' could be declared final
-
-73:	LawOfDemeter:	Potential violation of Law of Demeter (object not created locally)
-
-74:	OnlyOneReturn:	A method should have only one exit point, and that should be the last statement in the method
-77:	OnlyOneReturn:	A method should have only one exit point, and that should be the last statement in the method
-92:	OnlyOneReturn:	A method should have only one exit point, and that should be the last statement in the method
