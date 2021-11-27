@@ -2,25 +2,46 @@ import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Class describing a bank account. Each bank account is identified via customerNumber 
+ * and the security code is pinNumber. Two types of balances are managed: checking balance 
+ * and saving balance.
+ */
 public class Account {
 	private static final double POSITIVE_VALUE = 0;
-	private double checkingBalance = 0;
-	private double savingBalance = 0;
+	private double checkingBalance;
+	private double savingBalance;
 
-	// variables
-	private int customerNumber;
-	private int pinNumber;
+	/**
+	 * unique identifier for a customer
+	 */
+	private final int customerNumber;
+	/**
+	 * security number to access the account
+	 */
+	private final int pinNumber;
 	
-	private Scanner input = new Scanner(System.in);
-	private DecimalFormat moneyFormat = new DecimalFormat("'$'###,##0.00");
+	private final Scanner input; 
+	private final DecimalFormat moneyFormat;
 
+	/**
+	 * instantiate a new account object
+	 * @param customerNumber
+	 * @param pinNumber
+	 * @param checkingBalance
+	 * @param savingBalance
+	 */
 	public Account(int customerNumber, int pinNumber, double checkingBalance, double savingBalance) {
 		this.customerNumber = customerNumber;
 		this.pinNumber = pinNumber;
 		this.checkingBalance = checkingBalance;
 		this.savingBalance = savingBalance;
+
+		this.input = new Scanner(System.in);
+		this. moneyFormat = new DecimalFormat("'$'###,##0.00");
 	}
 
+	// getter 
 	public int getCustomerNumber() {
 		return this.customerNumber;
 	}
@@ -37,40 +58,62 @@ public class Account {
 		return this.savingBalance;
 	}
 
-	// no setters are implemented, so to increase safety of data
+	// no setters are implemented, so to increase safety of data. 
+	// Balance's values could only be modified through provided methods 
 	
 	/**
-	 * 
+	 * tranfer an amount of money from chekingBalance to savingBalance
 	 * @param amount money to be tranfered
 	 * @throws InvalidOperationException if checking balance < amount
 	 */
-	private void transferMoneyFromCheckingToSaving(double amount) throws InvalidOperationException {
+	private void transferMoneyFromCheckingToSaving(double amount) throws NotEnoughMoneyException {
 		if (this.checkingBalance >= amount) { // if enough money to perform the action
 			this.checkingBalance = this.checkingBalance - amount;
 			this.savingBalance = this.savingBalance + amount;
 		}
 		else
-			throw new InvalidOperationException("Not enough money");
+			throw new NotEnoughMoneyException();
 	}
 
-	private void withdrawFromChecking(double amount) throws InvalidOperationException {
+	// tranfer money from saving to checking balance not supported for the type of account 
+
+	/**
+	 * perform withdraw of money from checkingBalance. It ensures data consistency, since performed
+	 * only if enough data are available
+	 * @param amount 
+	 * @throws NotEnoughMoneyException if checking balance < amount
+	 */
+	private void withdrawFromChecking(double amount) throws NotEnoughMoneyException {
 		if (this.checkingBalance >= amount) // if enough money to perform the action
 			this.checkingBalance -= amount;
 		else
-			throw new InvalidOperationException("Not enough money");
+			throw new NotEnoughMoneyException();
 	}
 
-	private void withdrawFromSaving(double amount) throws InvalidOperationException {
+	/**
+	 * perform withdraw of money from savingBalance. It ensures data consistency, since performed
+	 * only if enough data are available
+	 * @param amount
+	 * @throws NotEnoughMoneyException if saving balance < amount
+	 */
+	private void withdrawFromSaving(double amount) throws NotEnoughMoneyException {
 		if (this.savingBalance >= amount)
 			this.checkingBalance -= amount;
 		else
-			throw new InvalidOperationException("Not enough money");
+			throw new NotEnoughMoneyException();
 	}
 
+	/**
+	 * retrieve value form the user through command line. The input provided is checked against stopping sequence
+	 * @param stopSequence reserved sequence of characters identifying the user intentio to exit the current balance operation
+	 * @param defaultOnExit 
+	 * @param defaultOnError
+	 * @return if the input is not the stop sequence, the value provided by the user is returned
+	 */
 	private double getUserInput(String stopSequence, double defaultOnExit, double defaultOnError) {
 		String str = input.nextLine();
 
-		if(str.equals(stopSequence)) 
+		if(stopSequence.equals(str)) 
 			return defaultOnExit;
 		else {
 			try {
@@ -82,24 +125,36 @@ public class Account {
 		}
 	}
 
+	/**
+	 * 
+	 * @param promptedMessage message prompted the user specifying the amount to be provided
+	 * @param lowerBound threshold, minimum value for the amount provided to be. It must be a value >= 0
+	 * @return amount provided by the user; -1 if user wants to stop operation
+	 */
 	private double getAmount(String promptedMessage, double lowerBound) {
 		while(true) {
 			System.out.print(promptedMessage);
-			double amount = getUserInput("S", -1, -2);
+			final double amount = getUserInput("S", -1, -2);
 
-			switch(amount) {
-				case -1: 
+			if (amount < 0) { // singaling an error
+				switch((int) amount) {
+					case -1: 
 					return -1; // propagate user wants to exit the sequence
 				case -2:
 					System.out.println("Invalid Input, retry");
 					break; // repeate the loop
 				default: 
-					if(amount >= lowerBound) // else continue the loop
-						return amount;
+					break;
+				}
 			}
+			else if(amount >= lowerBound)
+				return amount;
 		}
 	}
-
+	
+	/**
+	 * cmd interaction with the user to withdraw money from checkingBalance
+	 */
 	public void startWithdrawSequenceForChecking() {
 		System.out.println("\nCurrent Checkings Account Balance: " + moneyFormat.format(this.checkingBalance));
 
@@ -114,15 +169,18 @@ public class Account {
 			else {
 				try {
 					withdrawFromChecking(amount);
-					end = true;
+					end = true; // if reaches here, withdraw was completed correctly
 				}
-				catch(InvalidOperationException e) {
+				catch(NotEnoughMoneyException e) {
 					System.out.println(e);
 				}
 			}
 		}
 	}
 
+	/**
+	 * cmd interaction with the user to withdraw money from savingBalance
+	 */
 	public void startWithdrawSequenceForSaving() {
 		System.out.println("\nCurrent Savings Account Balance: " + moneyFormat.format(this.savingBalance));
 
@@ -137,15 +195,18 @@ public class Account {
 			else {
 				try {
 					withdrawFromSaving(amount);
-					end = true;
+					end = true; // if reaches here, withdraw was completed correctly
 				}
-				catch(InvalidOperationException e) {
+				catch(NotEnoughMoneyException e) {
 					System.out.println(e);
 				}
 			}
 		}
 	}
 
+	/**
+	 * cmd interaction with the user to deposit money into checkingBalance
+	 */
 	public void startDepositSequenceForChecking() {
 		System.out.println("\nCurrent Checkings Account Balance: " + moneyFormat.format(this.checkingBalance));
 
@@ -156,6 +217,9 @@ public class Account {
 			this.checkingBalance += amount;
 	}
 
+	/**
+	 * cmd interaction with the user to deposit money into savingBalance
+	 */
 	public void startDepositSequenceForSaving() {
 		System.out.println("\nCurrent Savings Account Balance: " + moneyFormat.format(this.savingBalance));
 
@@ -166,6 +230,9 @@ public class Account {
 			this.savingBalance += amount;
 	}
 
+	/**
+	 * cmd interaction with the user to tranfer money from checkingBalance to savingBalance
+	 */
 	public void startTransferSequence() {
 		double amount;
 		boolean end = false;
@@ -178,9 +245,9 @@ public class Account {
 			else {
 				try {
 					transferMoneyFromCheckingToSaving(amount);
-					end = true;
+					end = true; // if reaches here, transfer was complete correctly
 				}
-				catch(InvalidOperationException e) {
+				catch(NotEnoughMoneyException e) {
 					System.out.println("Not enough money, retry!");
 				}
 			}

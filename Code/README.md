@@ -86,8 +86,7 @@ Follows a more in-depth descriptions of the defects found.
 | 171                   | The method 'getTransferInput(String)' has a cyclomatic complexity of 15.                                                          | CyclomaticComplexity         | Reduce cyclomatic complexity                                  | 1           |
 | 175                   | Position literals first in String comparisons                                                                                     | LiteralsFirstInComparisons   | Swap comparison                                               | 3           |
 
-## ATM.java 
-If time done
+
 
 
 
