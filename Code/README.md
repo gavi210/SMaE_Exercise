@@ -53,12 +53,25 @@ Infinite loop maybe possible!
 
 ## Account.java
 From an initial view of the class emerges that the code is not well structured and no much ***cleaning*** has been done before submitting the code. Lots of code is duplicate and important security threats have not been verified. 
-Follows a more in-depth descsriptions of the defects found.
-| Lines     | Defect                                    | Reccomendations     | Occurrences |
-| --------- | -----------                               | ------------------- | ----------- |
-| 15 - 16   | default constructor would allow to create empty account with no **pin** and **number** associated | Remove it | 1 |
-| 18 - 21   | constructor will not assign value to **checkingBalance** and **savingBalance** | Remove it | 1 |
-| 59 - 62   | constructor will not assign value to **checkingBalance** and **savingBalance** | Remove it | 1 |
+Follows a more in-depth descriptions of the defects found.
+
+### Manually detected Defects
+| Lines               | Defect                                                                                                                        | Defect Type          | Reccomendation                               | Occurrences |   
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------|----------------------|----------------------------------------------|-------------|
+|  15 - 16            | Default constructor would allow to create empty account with no **pin** and **number** associated                             | Logic                | Remove it                                    | 1           |  
+| 18 - 21             | Constructor will not assign value to **checkingBalance** and **savingBalance**                                                | Logic                | Remove it                                    | 1           |  
+| 30 - 43             | customerNumber and customer pin should not be changed                                                                         | Logic                | Remove Setters                               | 2           |  
+| 56 - 84             | unused methods                                                                                                                | Code Clarity         | Remove them                                  | 6           |  
+| 86 - 235            | misleading method names                                                                                                       | Code Clarity         | Rename                                       | 5           |   
+| 86 - 235            | the same methods do two actions: interact with user and update balance's value                                                | Ease of Modification | Consider to split into two different methods | 6           |   
+| 86 -235             | no way to exit from the loop if user wants to exit the operation                                                              | Logic                | Provide a way to terminate the operation     | 6           |  
+| 86 - 235            | Lot of duplicate code                                                                                                         | Ease of Modification | Refactor the methods to avoid duplicate      | 6           |   
+| 93 - 95 & 115 - 117 | update of balance values is not atomic: if exception thrown during the update, balance values could result to be inconsistent | Logic                | Make update operation safe                   | 6           |   
+| 171 - 235           | Method too complicated                      | Ease of Modification | Split into submethods | 2 |  
+| 141 - 235           | Duplicate code for user interaction         | Ease of Maintenance & Design Decisions | Consider encapsulate user interaction and input validation in a method | 6 |
+
+### Automatically detected Defects
+
 ## ATM.java 
 If time done
 
