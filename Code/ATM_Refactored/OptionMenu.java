@@ -7,9 +7,21 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class OptionMenu {
-	Scanner menuInput = new Scanner(System.in);
-	DecimalFormat moneyFormat = new DecimalFormat("'$'###,##0.00");
-	HashMap<Integer, Account> data = new HashMap<Integer, Account>();
+	
+	private final Scanner menuInput;
+	private final DecimalFormat moneyFormat;
+	private final Map<Integer, Account> accountsData;
+
+	/**
+	 * constructor
+	 */
+	public OptionMenu() {
+		this.menuInput = new Scanner(System.in);
+		this.moneyFormat = new DecimalFormat("'$'###,##0.00");
+		this.accountsData = new HashMap<>();
+	}
+	 
+	 
 
 	public void getLogin() throws IOException {
 		boolean end = false;
@@ -21,11 +33,11 @@ public class OptionMenu {
 				customerNumber = menuInput.nextInt();
 				System.out.print("\nEnter your PIN number: ");
 				pinNumber = menuInput.nextInt();
-				Iterator it = data.entrySet().iterator();
+				Iterator it = accountsData.entrySet().iterator();
 				while (it.hasNext()) {
 					Map.Entry pair = (Map.Entry) it.next();
 					Account acc = (Account) pair.getValue();
-					if (data.containsKey(customerNumber) && pinNumber == acc.getPinNumber()) {
+					if (accountsData.containsKey(customerNumber) && pinNumber == acc.getPinNumber()) {
 						getAccountType(acc);
 						end = true;
 						break;
@@ -159,10 +171,10 @@ public class OptionMenu {
 			try {
 				System.out.println("\nEnter your customer number ");
 				cst_no = menuInput.nextInt();
-				Iterator it = data.entrySet().iterator();
+				Iterator it = accountsData.entrySet().iterator();
 				while (it.hasNext()) {
 					Map.Entry pair = (Map.Entry) it.next();
-					if (!data.containsKey(cst_no)) {
+					if (!accountsData.containsKey(cst_no)) {
 						end = true;
 					}
 				}
@@ -176,15 +188,15 @@ public class OptionMenu {
 		}
 		System.out.println("\nEnter PIN to be registered");
 		int pin = menuInput.nextInt();
-		data.put(cst_no, new Account(cst_no, pin));
+		accountsData.put(cst_no, new Account(cst_no, pin));
 		System.out.println("\nYour new account has been successfuly registered!");
 		System.out.println("\nRedirecting to login.............");
 		getLogin();
 	}
 
 	public void mainMenu() throws IOException {
-		data.put(952141, new Account(952141, 191904, 1000, 5000));
-		data.put(123, new Account(123, 123, 20000, 50000));
+		accountsData.put(952141, new Account(952141, 191904, 1000, 5000));
+		accountsData.put(123, new Account(123, 123, 20000, 50000));
 		boolean end = false;
 		while (!end) {
 			try {

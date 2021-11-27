@@ -13,7 +13,7 @@ public class Account {
 	private int pinNumber;
 
 	/**
-	 * should be initialized when instance constructed. 
+	 * should be initialized when instance constructed.
 	 */
 	private double checkingBalance = 0;
 	private double savingBalance = 0;
