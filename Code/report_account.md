@@ -86,18 +86,14 @@ Follows a more in-depth descriptions of the defects found.
 | 171                   | The method 'getTransferInput(String)' has a cyclomatic complexity of 15.                                                          | CyclomaticComplexity         | Reduce cyclomatic complexity                                  | 1           |
 | 175                   | Position literals first in String comparisons                                                                                     | LiteralsFirstInComparisons   | Swap comparison                                               | 3           |
 
+## Summary of Reccomendation
+Defects found in the code belongs mainly to 3 categories: Logic, Code Clarity and Ease of Modification. 
+For each category, follows a summary of the reccomendations: 
+- Logic: to improve code quality the developer should remove erroneous constructors, should make customerNumber and customerPin final and should provide a mean for the user to terminate the banking operations
+- Code Clarity: to improve code quality, method's names should be made more explicative and coherent with the implementation
+- Ease of Modification: to improve code quality, method's functionalities should be split into submethods, so to increase code reusability and code decoupling.
 
-
-
-
-
-# Run the code
-To run the project\
-1.Download all the code files (total 3)\
-2.Store them in a single folder\
-3.Either use your Java IDE e.g. Eclipse ,InteliJ or NetBeans\
-4.Or in Windows open command prompt and go to project Directory\
-1. run command : javac ATM.java\
-2. After completion your folder will contain 3 .class files\
-3. In command prompt run command: java ATM\
-4. Project will start running
+## Review Time and Defects Found
+Overall each member spent 2 hours reviewing the code: 1.5h for the manual review and 0.5h for the automatic. 
+As could be noticed from the tables above, on one side the automatic tools succeedes in finding subdle errors, such as ***unused declaration*** or ***local variable could be made final***; on the other side, manual review allows to discover posible security threats (**customerNumber** modifiable) and bad architectural design. 
+Combining the two reivews together allowed to capture as much errors as possible within the code.
