@@ -3,18 +3,41 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Account {
+
 	// variables
+	/**
+	 * maybe error in using the classes -> changing customer number with balance inclused -> security concern
+	 * should be constant -> not modifiable from the outside -> new customer -> new instance
+	 */
 	private int customerNumber;
 	private int pinNumber;
+
+	/**
+	 * should be initialized when instance constructed.
+	 */
 	private double checkingBalance = 0;
 	private double savingBalance = 0;
 
+	// since two different type of methods are used for the two classes -> inheritance and polymorphism for the operations
+	
+	// best practive for having static variables -> use getter or assign to it once
+	/* 
+	scanner never closed, visibility by default is public -> should not be accessible from the outside
+	*/
 	Scanner input = new Scanner(System.in);
 	DecimalFormat moneyFormat = new DecimalFormat("'$'###,##0.00");
 
-	public Account() {
+	/**
+	 * this constructor should be available -> makes no sense to initialize without any account associated
+	 */
+	public Account() { // provide insights why and when use one constructor instead of another
 	}
 
+	/*
+	provide description when used one constructor and when the other
+	- fist is used when user logs in
+	- second is used to create simulated customers from the main 
+	*/
 	public Account(int customerNumber, int pinNumber) {
 		this.customerNumber = customerNumber;
 		this.pinNumber = pinNumber;
@@ -27,6 +50,12 @@ public class Account {
 		this.savingBalance = savingBalance;
 	}
 
+	/* 
+	should the customer number be modifiable? 
+	setters for customer number and pin number should be deleted -> only getters available for the variables
+
+	add this. to make clear -> referring to class variables
+	*/
 	public int setCustomerNumber(int customerNumber) {
 		this.customerNumber = customerNumber;
 		return customerNumber;
@@ -45,6 +74,11 @@ public class Account {
 		return pinNumber;
 	}
 
+	// what is checking balance? what stands for in the code? 
+	// checking done priori to compute the real operation maybe
+
+	// reimplemented -> define interface providing method signature
+	// public double getBalance() and for the others
 	public double getCheckingBalance() {
 		return checkingBalance;
 	}
@@ -53,7 +87,12 @@ public class Account {
 		return savingBalance;
 	}
 
+	/**
+	 * meaningless names for the methods: should state that they returns the possible value for the variable, should the withdraw/deposit be done
+	 * mnethods are not never used -> should be removed
+	 */
 	public double calcCheckingWithdraw(double amount) {
+		// could directly return the value
 		checkingBalance = (checkingBalance - amount);
 		return checkingBalance;
 	}
@@ -63,6 +102,7 @@ public class Account {
 		return savingBalance;
 	}
 
+	// deposit operations
 	public double calcCheckingDeposit(double amount) {
 		checkingBalance = (checkingBalance + amount);
 		return checkingBalance;
@@ -73,16 +113,31 @@ public class Account {
 		return savingBalance;
 	}
 
+	/**
+	 * - misleading method names -> they perform the transfer, but not mentioned in the name
+	 * - inconsistency problem: balances could be negative -> add logic to preserve inconsistency
+	 * - add error handling: throws exception if operation cannot be done
+	 */
 	public void calcCheckTransfer(double amount) {
 		checkingBalance = checkingBalance - amount;
 		savingBalance = savingBalance + amount;
 	}
 
+	// swap rows -> immediatly noticable difference in signs 
 	public void calcSavingTransfer(double amount) {
 		savingBalance = savingBalance - amount;
 		checkingBalance = checkingBalance + amount;
 	}
 
+	// if with interface -> store pointers to subaccount type -> access them for the operations desidered
+	/* 
+	methods to interact with command line
+	- naming of the method: get but nothing is returned
+	- structure: two different actions within the method -> consider to split in "user interaction" and "update value"
+	- logic error: no way to escape the loop: if user doesn't want to withdraw anymore
+
+	duplicate methods: only Checkings/Savings word changes and variable interaction
+	*/
 	public void getCheckingWithdrawInput() {
 		boolean end = false;
 		while (!end) {
@@ -91,6 +146,10 @@ public class Account {
 				System.out.print("\nAmount you want to withdraw from Checkings Account: ");
 				double amount = input.nextDouble();
 				if ((checkingBalance - amount) >= 0 && amount >= 0) {
+					/* 
+					calculate will update the value -> if something wrong inconsistency in data 
+					consider updating the value only after correct interaction with the user
+					*/
 					calcCheckingWithdraw(amount);
 					System.out.println("\nCurrent Checkings Account Balance: " + moneyFormat.format(checkingBalance));
 					end = true;
@@ -104,6 +163,9 @@ public class Account {
 		}
 	}
 
+	/* 
+	same as mentioned above
+	*/
 	public void getsavingWithdrawInput() {
 		boolean end = false;
 		while (!end) {
@@ -168,11 +230,25 @@ public class Account {
 		}
 	}
 
+	// depending on the transfer type
+	// in implemented account -> methods to preserve consistency 
+
+	/*
+	design defect: will make sense to have different subclasses -> no need to deal with if condition any time
+	method too long: should reduce the number of lines
+	- method logic: too complicated -> only tranfer allowed in from checkings to savings 
+	*/
 	public void getTransferInput(String accType) {
 		boolean end = false;
 		while (!end) {
 			try {
+				/* 
+				code repetition for the interaction
+				*/
 				if (accType.equals("Checkings")) {
+					/* 
+					error in loop -> comparison of accType is done every iteration -> consider placing nested loops -> comparison might be expensive computation
+					*/
 					System.out.println("\nSelect an account you wish to tranfers funds to:");
 					System.out.println("1. Savings");
 					System.out.println("2. Exit");
