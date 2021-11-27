@@ -1,0 +1,36 @@
+5:	NoPackage:	All classes, interfaces, enums and annotations must belong to a named package
+7:	RedundantFieldInitializer:	Avoid using redundant field initializer for 'checkingBalance'
+
+7:	BeanMembersShouldSerialize:	Found non-transient, non-static member. Please mark as transient or provide accessors.
+7:	UnusedAssignment:	The field initializer for 'checkingBalance' is never used (overwritten on line 20)
+8:	RedundantFieldInitializer:	Avoid using redundant field initializer for 'savingBalance'
+
+8:	BeanMembersShouldSerialize:	Found non-transient, non-static member. Please mark as transient or provide accessors.
+8:	UnusedAssignment:	The field initializer for 'savingBalance' is never used (overwritten on line 21)
+
+11:	ImmutableField:	Private field 'customerNumber' could be made final; it is only initialized in the declaration or constructor.
+12:	ImmutableField:	Private field 'pinNumber' could be made final; it is only initialized in the declaration or constructor.
+14:	ImmutableField:	Private field 'input' could be made final; it is only initialized in the declaration or constructor.
+15:	ImmutableField:	Private field 'moneyFormat' could be made final; it is only initialized in the declaration or constructor.
+
+17:	MethodArgumentCouldBeFinal:	Parameter 'customerNumber' is not assigned and could be declared final
+
+
+53:	ControlStatementBraces:	This statement should have braces
+
+58:	ControlStatementBraces:	This statement should have braces
+60:	ControlStatementBraces:	This statement should have braces
+65:	ControlStatementBraces:	This statement should have braces
+67:	ControlStatementBraces:	This statement should have braces
+74:	ControlStatementBraces:	This statement should have braces
+98:	ControlStatementBraces:	This statement should have braces
+154:	ControlStatementBraces:	This statement should have braces
+156:	ControlStatementBraces:	This statement should have braces
+
+71:	LocalVariableCouldBeFinal:	Local variable 'str' could be declared final
+
+73:	LawOfDemeter:	Potential violation of Law of Demeter (object not created locally)
+
+74:	OnlyOneReturn:	A method should have only one exit point, and that should be the last statement in the method
+77:	OnlyOneReturn:	A method should have only one exit point, and that should be the last statement in the method
+92:	OnlyOneReturn:	A method should have only one exit point, and that should be the last statement in the method
