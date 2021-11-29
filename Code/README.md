@@ -57,6 +57,10 @@ This dimensions could be customized and are specified in the [PMD_RuleSet](/Code
 Follows a description of each fault found per java file.
 
 ## OptionMenu.java
+For the OptionMenu class the review with the help of the automatic tool PMD was done first.
+This first review focused on best practices, code style and documentation.
+Complexity issues were ignored, because the reviewer thought that the thresholds were set too low.
+The manual review was done after and focused on design, the program being error prone and general bugs.
 
 ### Manually detected Defects
 | Lines                                                               | Defect                                                                                                                       | Defect Type          | Recommendation                                                                                                                        | Occurences  |
