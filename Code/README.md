@@ -1,42 +1,42 @@
-# ATM
-This Project is to make an Automated Teller Machine.
-Information of the customers taken into account are: **Account Number**, **Password**, and **Bank Account**. 
-Operations supported by the ATM are:  **withdraw**, **deposit**, and **view account balance**.
-
 # Project Description
+The students of this project did not have an own java project at hand, because they were either stored in unavailable 
+locations or already have been reviewed using an automatic tool. It was decided that the students look at a small project available on Github.
+After a search for a suitable project it was decided to look at the source code available at: https://github.com/Ahathiya/ATM-Machine---Mini-Project---JAVA
+
+This Project simulates an Automated Teller Machine.
+Information of the customers taken into account are: **Account Number**, **Password**, and **Bank Account**. 
+Operations supported by the ATM are:  **withdraw**, **deposit**, **view account balance** and **transfer funds**.
 The ATM is composed by three simple classes: 
-- Account: it provides attributes and methods to support user operations (withdraw, deposit and balance's view).
-- ATM: it is the main project entry point and ancapsulates all the functionalities of the ATM
-- OptionMenu: it suppoprts the user interaction with the ATM machine. The interaction is done via simple command line interface.
+- **Account**: It provides attributes and methods to support user operations (withdraw, deposit, balance's view and transfer funds).
+- **ATM**: It is the main project entry point.
+- **OptionMenu**: It supports the user interaction with the ATM machine. The interaction is done via simple command line interface.
 
 ## Files under review
-Since the project is very simple, objective of the review would be to review the implementation of all the three above mentioned classes.
-Classes reviewed are: 
+Since the project is very simple, objective of the review would be to review the implementation of all the two above mentioned classes, which encapsule functionality: 
 1. [Account](/ATM/Account.java)
 2. [OptionMenu](/ATM/OptionMenu.java)
-3. [ATM](/ATM/ATM.java)
 
 # Roles in the project
 Students participating in the exercise are [Maximilian Huwyler](mailto:maximilian.huwyler@uzh.ch) and [Riccardo Rigoni](mailto:riccardo.rigoni@uzh.ch). 
 Both participants will act as ***reviewers*** and ***report writers***. 
 
 # Review Methodology
-Maximilian Huwyler will analyse the [OptionMenu.java](/ATM/OptionMenu.java) file, and Riccardo Rigoni the [Account.java](/ATM/Account.java) file. 
-[ATM.java](/ATM/ATM.java) will be investigated together.
+Maximilian Huwyler will analyse the [OptionMenu.java](/ATM/OptionMenu.java) file, and Riccardo Rigoni the [Account.java](/ATM/Account.java) file.
 
 Reviewers process will be done as follow:
-1. **Initial Code Overview**: goal is to properly understand the code behaviour,
-2. **Manual identification of aspects to be improved**: with the knowledge of the code behaviour, lack in code quality could be detected. The dimentions of code quality investigated are mentioned below,
-3. **Suggestion for Improvements**: reviewer suggest possible code changes,
-4. **Identification of Warnings with automatic tools**: PMD tool is used to further investigate defects in the code.
+1. **Initial Code Overview**: The goal is to properly understand the code behaviour.
+2. **Manual identification of aspects to be improved**: With the knowledge of the code behaviour, lack in code quality could be detected. The dimentions of code quality investigated are mentioned below,
+3. **Identification of Warnings with automatic tools**: The tool [PMD](https://pmd.github.io) is used for the assisted investigation of defects in the code.
+4. **Suggestion for Improvements**: The Reviewer suggest possible code changes.
 
 ## Manually investigated Quality Dimensions
-During the manul review the reviewers will look at: 
-- **Code Clarity**: variable and method name, code organization, indentation,
-- **Ease of Modification**: how easily would be to change the code,
-- **Logic**: are all cases edge cases covered?, correctness of loop and branches, are conditions meaningfull?,
-- **Error Handling**: correctness and soundness of error handling,
-- **Design Decisions**: code structure, architectural patterns used.   
+During the manual review the reviewers will focus on: 
+- **Code Clarity**: Variable and method name, code organization, indentation.
+- **Ease of Modification**: How easily would be to change the code.
+- **Logic**: Are all cases edge cases covered? Correctness of loop and branches. Meaningfullness of conditions.
+- **Error Handling**: Correctness and soundness of error handling,
+- **Design Decisions**: Code structure, architectural patterns used.
+
 
 ## PMD
 As suggested in the project specification, the [PMD](https://pmd.github.io) tool is used to discover faults in the code. 
@@ -54,13 +54,12 @@ This dimensions could be customized and are specified in the [PMD_RuleSet](/Code
 
 
 # Defects Found
-Follows a description of each fault found per java file.
 
 ## OptionMenu.java
 For the OptionMenu class the review with the help of the automatic tool PMD was done first.
 This first review focused on best practices, code style and documentation.
 Complexity issues were ignored, because the reviewer thought that the thresholds were set too low.
-The manual review was done after and focused on design, the program being error prone and general bugs.
+The manual review was done after and focused on design decisions, logic and ease of modification.
 
 ### Manually detected Defects
 | Lines                                                               | Defect                                                                                                                       | Defect Type          | Recommendation                                                                                                                        | Occurences  |
@@ -91,8 +90,7 @@ The manual review was done after and focused on design, the program being error 
 
 
 ## Account.java
-From an initial view of the class emerges that the code is not well structured and no much ***cleaning*** has been done before submitting the code. Lots of code is duplicate and important security threats have not been verified. 
-Follows a more in-depth descriptions of the defects found.
+From an initial view of the class emerges that the code is not well structured and not much ***cleaning*** has been done before submitting the code. Code is duplicated and important security threats have not been verified. 
 
 ### Manually detected Defects
 | Lines               | Defect                                                                                                                        | Defect Type          | Reccomendation                               | Occurrences |   
@@ -124,10 +122,6 @@ Follows a more in-depth descriptions of the defects found.
 | 171                   | The method 'getTransferInput(String)' has a cognitive complexity of 24, current threshold is 15                                   | CognitiveComplexity          | Reduce method complexity - consider splitting functionalities | 1           |
 | 171                   | The method 'getTransferInput(String)' has a cyclomatic complexity of 15.                                                          | CyclomaticComplexity         | Reduce cyclomatic complexity                                  | 1           |
 | 175                   | Position literals first in String comparisons                                                                                     | LiteralsFirstInComparisons   | Swap comparison                                               | 3           |
-
-## ATM.java 
-If time done
-
 
 
 To run the project\
