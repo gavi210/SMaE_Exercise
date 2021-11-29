@@ -324,6 +324,8 @@ public final class OptionMenu {
 	public void createAccount() throws IOException {
 		// Prepare loop variables
 		boolean end = false;
+		boolean stop = false;
+		boolean created = false;
 		String customerNumberStr;
 		int customerNumber = 0;
 		String pinNumberStr;
@@ -339,6 +341,7 @@ public final class OptionMenu {
 				customerNumberStr = menuInput.nextLine();
 				if(STOP_SEQUENCE.equals(customerNumberStr)){
 					end = true;
+					stop = true;
 				} else {
 					customerNumber = Integer.parseInt(customerNumberStr);
 
@@ -360,7 +363,10 @@ public final class OptionMenu {
 			}
 		}
 
-		end = false;
+		if (!stop){
+			end = false;
+		}
+
 		while (!end) {
 			try {
 				System.out.println("\nEnter PIN to be registered");
@@ -379,6 +385,7 @@ public final class OptionMenu {
 
 							if (!accountsData.containsKey(customerNumber)) {
 								end = true;
+								created = true;
 							}
 						}
 					}
@@ -391,12 +398,15 @@ public final class OptionMenu {
 				menuInput.next();
 			}
 		}
-		accountsData.put(customerNumber, new Account(customerNumber, pinNumber, INIT_CHECKING, INIT_SAVING));
-		System.out.println("\nYour new account has been successfuly registered!");
-		System.out.println("\nRedirecting to login.............");
 
-		// Make sure last newline character is used before going further
-		login();
+		if (created){
+			accountsData.put(customerNumber, new Account(customerNumber, pinNumber, INIT_CHECKING, INIT_SAVING));
+			System.out.println("\nYour new account has been successfuly registered!");
+			System.out.println("\nRedirecting to login.............");
+
+			// Make sure last newline character is used before going further
+			login();
+		}
 	}
 
 	/**
