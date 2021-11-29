@@ -123,37 +123,39 @@ public final class OptionMenu {
 
 				// Check if stop sequence or not. If not try to read customer number.
 				customerNumberStr = menuInput.nextLine();
-				if(!STOP_SEQUENCE.equals(customerNumberStr)){
+				if(STOP_SEQUENCE.equals(customerNumberStr)) {
+					end = true;
+				} else {
 					customerNumber = Integer.parseInt(customerNumberStr);
 
 					System.out.print("\nEnter your PIN number: ");
 
 					// Check if stop sequence or not. If not try to read pin number.
 					pinNumberStr = menuInput.nextLine();
-					if(STOP_SEQUENCE.equals(pinNumberStr))
-						return;
-					pinNumber = Integer.parseInt(pinNumberStr);
+					if(STOP_SEQUENCE.equals(pinNumberStr)){
+						end = true;
+					} else {
+						pinNumber = Integer.parseInt(pinNumberStr);
 
-					// Prepare loop variables
-					Iterator iterator = accountsData.entrySet().iterator();
-					Map.Entry pair;
-					Account acc;
-					while (iterator.hasNext()) {
-						pair = (Map.Entry) iterator.next();
-						acc = (Account) pair.getValue();
-						// See if input data is correct
-						if (accountsData.containsKey(customerNumber) && pinNumber == acc.getPinNumber()) {
-							// If yes continue with choosing account type
-							chooseAccountType(acc);
-							end = true;
-							break;
+						// Prepare loop variables
+						Iterator iterator = accountsData.entrySet().iterator();
+						Map.Entry pair;
+						Account acc;
+						while (iterator.hasNext()) {
+							pair = (Map.Entry) iterator.next();
+							acc = (Account) pair.getValue();
+							// See if input data is correct
+							if (accountsData.containsKey(customerNumber) && pinNumber == acc.getPinNumber()) {
+								// If yes continue with choosing account type
+								chooseAccountType(acc);
+								end = true;
+								break;
+							}
+						}
+						if (!end) {
+							System.out.println("\nWrong Customer Number or Pin Number");
 						}
 					}
-					if (!end) {
-						System.out.println("\nWrong Customer Number or Pin Number");
-					}
-				} else {
-					end = true;
 				}
 			} catch (NumberFormatException e) {
 				System.out.println("\nInvalid Character(s). Only Numbers or exit sequence.");
@@ -170,8 +172,8 @@ public final class OptionMenu {
 		int selection;
 
 		// Choices
-		final int checkingsAccountNo = 1;
-		final int savingsAccountNo = 2;
+		final int checkingsAcctNo = 1;
+		final int savingsAcctNo = 2;
 		final int exitNo = 3;
 
 		while (!end) {
@@ -186,11 +188,11 @@ public final class OptionMenu {
 				selection = menuInput.nextInt();
 
 				switch (selection) {
-				case checkingsAccountNo:
+				case checkingsAcctNo:
 					// Continue with checking account functionalities
 					operateChecking(acc);
 					break;
-				case savingsAccountNo:
+				case savingsAcctNo:
 					// Continue with saving account functionalities
 					operateSavings(acc);
 					break;
@@ -214,6 +216,7 @@ public final class OptionMenu {
 	 */
 	public void operateChecking(final Account acc) {
 		boolean end = false;
+		int selection;
 
 		// Choices
 		final int viewBalanceNo = 1;
@@ -232,7 +235,7 @@ public final class OptionMenu {
 				System.out.println(typeChoice(5,EXIT));
 				System.out.print(CHOICE);
 
-				int selection = menuInput.nextInt();
+				selection = menuInput.nextInt();
 
 				switch (selection) {
 				case viewBalanceNo:
@@ -267,6 +270,7 @@ public final class OptionMenu {
 	 */
 	public void operateSavings(final Account acc) {
 		boolean end = false;
+		int selection;
 
 		// Choices
 		final int viewBalanceNo = 1;
@@ -284,7 +288,9 @@ public final class OptionMenu {
 				System.out.println(typeChoice(4,"Transfer Funds"));
 				System.out.println(typeChoice(5,EXIT));
 				System.out.print(CHOICE);
-				int selection = menuInput.nextInt();
+
+				selection = menuInput.nextInt();
+
 				switch (selection) {
 				case viewBalanceNo:
 					System.out.println("\nSavings Account Balance: " + moneyFormat.format(acc.getSavingBalance()));
@@ -318,9 +324,9 @@ public final class OptionMenu {
 	public void createAccount() throws IOException {
 		// Prepare loop variables
 		boolean end = false;
-		String customerNumberInput = "";
+		String customerNumberStr;
 		int customerNumber = 0;
-		String pinNumberInput = "";
+		String pinNumberStr;
 		int pinNumber = 0;
 
 		while (!end) {
@@ -330,21 +336,23 @@ public final class OptionMenu {
 				System.out.println("\nEnter your customer number ");
 
 				// Read new customer number
-				customerNumberInput = menuInput.nextLine();
-				if(STOP_SEQUENCE.equals(customerNumberInput))
-					return;
-				customerNumber = Integer.parseInt(customerNumberInput);
+				customerNumberStr = menuInput.nextLine();
+				if(STOP_SEQUENCE.equals(customerNumberStr)){
+					end = true;
+				} else {
+					customerNumber = Integer.parseInt(customerNumberStr);
 
-				Iterator iterator = accountsData.entrySet().iterator();
-				while (iterator.hasNext()) {
-					iterator.next();
-					// To create an account the new customer number can't already be taken and must be positive
-					if (!accountsData.containsKey(customerNumber) && customerNumber > 0) {
-						end = true;
+					Iterator iterator = accountsData.entrySet().iterator();
+					while (iterator.hasNext()) {
+						iterator.next();
+						// New customer number can't already be taken and must be positive
+						if (!accountsData.containsKey(customerNumber) && customerNumber > 0) {
+							end = true;
+						}
 					}
-				}
-				if (!end) {
-					System.out.println("\nThis customer number cannot be chosen. Try a different one.");
+					if (!end) {
+						System.out.println("\nThis customer number cannot be chosen. Try a different one.");
+					}
 				}
 			} catch (NumberFormatException e) {
 				System.out.println(INVALID_CHOICE);
@@ -358,23 +366,25 @@ public final class OptionMenu {
 				System.out.println("\nEnter PIN to be registered");
 
 				// Read new customer pin
-				pinNumberInput = menuInput.nextLine();
-				if(STOP_SEQUENCE.equals(pinNumberInput))
-					return;
-				pinNumber = Integer.parseInt(pinNumberInput);
+				pinNumberStr = menuInput.nextLine();
+				if(STOP_SEQUENCE.equals(pinNumberStr)){
+					end = true;
+				} else {
+					pinNumber = Integer.parseInt(pinNumberStr);
 
-				if (pinNumber > 0){
-					Iterator iterator = accountsData.entrySet().iterator();
-					while (iterator.hasNext()) {
-					iterator.next();
+					if (pinNumber > 0){
+						Iterator iterator = accountsData.entrySet().iterator();
+						while (iterator.hasNext()) {
+							iterator.next();
 
-						if (!accountsData.containsKey(customerNumber)) {
-							end = true;
+							if (!accountsData.containsKey(customerNumber)) {
+								end = true;
+							}
 						}
 					}
-				}
-				if (!end) {
-					System.out.println("\nThis pin cannot be taken. Try a different pin");
+					if (!end) {
+						System.out.println("\nThis pin cannot be taken. Try a different pin");
+					}
 				}
 			} catch (NumberFormatException e) {
 				System.out.println("\nInvalid Choice.");
