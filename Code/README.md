@@ -1,5 +1,5 @@
 # Project Description
-The students of this project did not have an own java project at hand, because they were either stored in unavailable 
+The students in this team did not have an own java project at hand, because they were either stored in unavailable 
 locations or already have been reviewed using an automatic tool. It was decided that the students look at a small project available on Github.
 After a search for a suitable project it was decided to look at the source code available at: https://github.com/rajyash1904/ATM-Machine
 
@@ -11,12 +11,12 @@ The ATM is composed by three simple classes:
 - **ATM**: It is the main project entry point.
 - **OptionMenu**: It supports the user interaction with the ATM machine. The interaction is done via simple command line interface.
 
-## Files under review
+## Files under Review
 Since the project is very simple, objective of the review would be to review the implementation of all the two above mentioned classes, which encapsule functionality: 
 1. [Account](/ATM/Account.java)
 2. [OptionMenu](/ATM/OptionMenu.java)
 
-# Roles in the project
+# Roles in the Project
 Students participating in the exercise are [Maximilian Huwyler](mailto:maximilian.huwyler@uzh.ch) and [Riccardo Rigoni](mailto:riccardo.rigoni@uzh.ch). 
 Both participants will act as ***reviewers*** and ***report writers***. 
 
@@ -29,7 +29,7 @@ Reviewers process will be done as follow:
 3. **Identification of Warnings with automatic tools**: The tool [PMD](https://pmd.github.io) is used for the assisted investigation of defects in the code.
 4. **Suggestion for Improvements**: The Reviewer suggest possible code changes.
 
-## Manually investigated Quality Dimensions
+## Manually Investigated Quality Dimensions
 During the manual review the reviewers will focus on: 
 - **Code Clarity**: Variable and method name, code organization, indentation.
 - **Ease of Modification**: How easily would be to change the code.
@@ -51,8 +51,6 @@ When running the PMD tool, the following set of predefined code quality dimensio
 
 This dimensions could be customized and are specified in the [PMD_RuleSet](/Code/PMD_RuleSet.xml) file.
 
-
-
 # Defects Found
 
 ## OptionMenu.java
@@ -61,18 +59,17 @@ This first review focused on best practices, code style and documentation.
 Complexity issues were ignored, because the reviewer thought that the thresholds were set too low.
 The manual review was done after and focused on design decisions, logic and ease of modification.
 
-### Manually detected Defects
+### Manually Detected Defects
 | Lines                                                               | Defect                                                                                                                       | Defect Type          | Recommendation                                                                                                                        | Occurences  |
 |---------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|----------------------|---------------------------------------------------------------------------------------------------------------------------------------|-------------|
 | 9                                                                   | The OptionMenu class in this simple example shouldn't be initialized twice since the customer data is not a static variable. | Design Decision      | Implement the Singleton pattern using a private constructor and a public getter.                                                      | 1           |
 | 14, 155, 185                                                        | All the function should be terminatable.                                                                                     | Logic                | Add functionality to leave the process of login into an account, creating an account and choosing between those.                      | 3           |
 | 38                                                                  | If user enters a not a number then the program ends in an infinite loop.                                                     | Logic                | Add "menuInput.next();" on the next line, else the program runs into an infinite loop.                                                | 1           |
 | 56, 59, 62, 90, 93, 96, 100, 103, 129, 132, 135, 138, 141, 195, 199 | Switch statement with hardcoded integers                                                                                     | Ease of Modification | Create an integer variable to represent a choice that also can be used, when asking for input.                                        | 3           |
-| 75, 117                                                             | A lot of duplicated code for checking and savings, because they behave the same.                                             | Duplicate Code       | Combine getChecking and getSaving members to one function taking an interface as argument. See further details in the Account review. | 2           |
 | 48-50, 80-84, 122-126, 191-192                                      | For the ouput the same format is often reused but hardcoded in the source code.                                              | Ease of Modification | Create a format function that can be used when user input is asked.                                                                   | 4           |
 | 156                                                                 | The user can enter a negative number as customer or pin number                                                               | Logic                | Permit users to chose non-positive customer number and pin.                                                                           | 1           |
 
-### Automatically detected Defects
+### Automatically Detected Defects
 | Lines                                    | Defect                                                                            | Defect Type                     | Recommendation                                                                                                                               | Occurences  |
 |------------------------------------------|-----------------------------------------------------------------------------------|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
 | 9                                        | The class is not inside a package.                                                | NoPackage                       | Add class to a package.                                                                                                                      | 1           |
@@ -92,7 +89,7 @@ The manual review was done after and focused on design decisions, logic and ease
 ## Account.java
 From an initial view of the class emerges that the code is not well structured and not much ***cleaning*** has been done before submitting the code. Code is duplicated and important security threats have not been verified. 
 
-### Manually detected Defects
+### Manually Detected Defects
 | Lines               | Defect                                                                                                                        | Defect Type          | Reccomendation                               | Occurrences |   
 |---------------------|-------------------------------------------------------------------------------------------------------------------------------|----------------------|----------------------------------------------|-------------|
 |  15 - 16            | Default constructor would allow to create empty account with no **pin** and **number** associated                             | Logic                | Remove it                                    | 1           |  
@@ -107,7 +104,7 @@ From an initial view of the class emerges that the code is not well structured a
 | 171 - 235           | Method too complicated                      | Ease of Modification | Split into submethods | 2 |  
 | 141 - 235           | Duplicate code for user interaction         | Ease of Maintenance & Design Decisions | Consider encapsulate user interaction and input validation in a method | 6 |
 
-### Automatically detected Defects
+### Automatically Detected Defects
 | Lines                 | Defect                                                                                                                            | Defect Type                  | Reccomendation                                                | Occurrences |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------------------------|---------------------------------------------------------------|-------------|
 | -                     | Classes, Fields and Methods comments are required                                                                                 | CommentRequired              | Add Comments                                                  | 14          |
@@ -123,7 +120,33 @@ From an initial view of the class emerges that the code is not well structured a
 | 171                   | The method 'getTransferInput(String)' has a cyclomatic complexity of 15.                                                          | CyclomaticComplexity         | Reduce cyclomatic complexity                                  | 1           |
 | 175                   | Position literals first in String comparisons                                                                                     | LiteralsFirstInComparisons   | Swap comparison                                               | 3           |
 
+## Summary of Recomendations
 
+Defects found in the code belongs mainly to 3 categories: Logic, Code Clarity and Ease of Modification. 
+For each category, follows a summary of the reccomendations: 
+- **Logic**: to improve code quality the developer should remove erroneous constructors, should make customerNumber and customerPin final and should provide a mean for the user to terminate the banking operations
+- **Code Clarity**: to improve code quality, method's names should be made more explicative and coherent with the implementation
+- **Ease of Modification**: to improve code quality, method's functionalities should be split into submethods, so to increase code reusability and code decoupling.
+
+## Review Time and Defects Found
+The student Maximilian Huwyler spent 2h reviewing and improving the code.
+First 1h were spent improving the code using assisted by the automatic tool PMD.
+Afterwards 1h were spent reviewing the code manually.
+The student Riccardo Rigoni spent 2h reviewing the code: 1.5h for the manual review and 0.5h for the automatic.
+
+As could be noticed from the tables above the automatic tool succeedes in finding subdle errors, such as ***unused declaration*** or ***local variable could be made final*** and missing documentation.
+Checking coding style with automated tools can be tedious, because fixing an error with one's own style could still be insufficient for the tool, leading to another additional review step.
+Such a tool could be recommended to use before the manual review to find sudble errors and checking best practices, so one doesn't have to focus on them during manual review, which is time intensive.
+If such tool are used reoccuring spending time on customizing the rulesets is advised to avoid unnecessary warnings.
+
+Manual review allows to discover more complicated defects like possible security threats (**customerNumber** modifiable) and bad architectural design.
+Through manual review defects can be found, which wouldn't have been detected by the automatic tool.
+This makes the process of manual review indispendable compared to automatic review.
+
+From our investigation it cannot be concluded whether doing a review assisted by an automatic tool before the manual review can save significant time.
+Combining the two reviews together altough, allows to capture as much errors as possible within the code.
+
+# Running the Project
 To run the project\
 1.Download all the code files (total 3)\
 2.Store them in a single folder\
