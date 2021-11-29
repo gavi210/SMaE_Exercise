@@ -1,7 +1,7 @@
 # Project Description
 The students of this project did not have an own java project at hand, because they were either stored in unavailable 
 locations or already have been reviewed using an automatic tool. It was decided that the students look at a small project available on Github.
-After a search for a suitable project it was decided to look at the source code available at: https://github.com/Ahathiya/ATM-Machine---Mini-Project---JAVA
+After a search for a suitable project it was decided to look at the source code available at: https://github.com/rajyash1904/ATM-Machine
 
 This Project simulates an Automated Teller Machine.
 Information of the customers taken into account are: **Account Number**, **Password**, and **Bank Account**. 
