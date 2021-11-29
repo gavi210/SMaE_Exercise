@@ -49,7 +49,7 @@ When running the PMD tool, the following set of predefined code quality dimensio
 - performance
 - security
 
-This dimensions could be customized and are specified in the [PMD_RuleSet](/PMD_RuleSet.xml) file.
+This dimensions could be customized and are specified in the [PMD_RuleSet](/Code/PMD_RuleSet.xml) file.
 
 
 
@@ -62,7 +62,39 @@ Here will be done by Maximilian
 Infinite loop maybe possible!
 
 ## Account.java
-Here will be done by Riccardo
+From an initial view of the class emerges that the code is not well structured and no much ***cleaning*** has been done before submitting the code. Lots of code is duplicate and important security threats have not been verified. 
+Follows a more in-depth descriptions of the defects found.
+
+### Manually detected Defects
+| Lines               | Defect                                                                                                                        | Defect Type          | Reccomendation                               | Occurrences |   
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------|----------------------|----------------------------------------------|-------------|
+|  15 - 16            | Default constructor would allow to create empty account with no **pin** and **number** associated                             | Logic                | Remove it                                    | 1           |  
+| 18 - 21             | Constructor will not assign value to **checkingBalance** and **savingBalance**                                                | Logic                | Remove it                                    | 1           |  
+| 30 - 43             | customerNumber and customer pin should not be changed                                                                         | Logic                | Remove Setters                               | 2           |  
+| 56 - 84             | unused methods                                                                                                                | Code Clarity         | Remove them                                  | 6           |  
+| 86 - 235            | misleading method names                                                                                                       | Code Clarity         | Rename                                       | 5           |   
+| 86 - 235            | the same methods do two actions: interact with user and update balance's value                                                | Ease of Modification | Consider to split into two different methods | 6           |   
+| 86 -235             | no way to exit from the loop if user wants to exit the operation                                                              | Logic                | Provide a way to terminate the operation     | 6           |  
+| 86 - 235            | Lot of duplicate code                                                                                                         | Ease of Modification | Refactor the methods to avoid duplicate      | 6           |   
+| 93 - 95 & 115 - 117 | update of balance values is not atomic: if exception thrown during the update, balance values could result to be inconsistent | Logic                | Make update operation safe                   | 6           |   
+| 171 - 235           | Method too complicated                      | Ease of Modification | Split into submethods | 2 |  
+| 141 - 235           | Duplicate code for user interaction         | Ease of Maintenance & Design Decisions | Consider encapsulate user interaction and input validation in a method | 6 |
+
+### Automatically detected Defects
+| Lines                 | Defect                                                                                                                            | Defect Type                  | Reccomendation                                                | Occurrences |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------------------------|---------------------------------------------------------------|-------------|
+| -                     | Classes, Fields and Methods comments are required                                                                                 | CommentRequired              | Add Comments                                                  | 14          |
+| 9 - 10               | Avoid using redundant field initializer for 'checkingBalance' and 'savingBalance'                                                 | RedundantFieldInitializer    | Remove redundant initializers                                 | 2           |
+| 12 - 13               | To avoid mistakes add a comment at the beginning of the input field if you want a default access modifier (2)                     | CommentDefaultAccessModifier | Add comments                                                  | 2           |
+| 15 - 29               | Add comments to constructors                                                                                                      | Comment Required             | Add comments                                                  | 3           |
+| 30 - 39               | Linguistics Antipattern - The setter 'setCustomerNumber' and 'setPinNumber' should not return any type except void linguistically | LinguisticNaming             | Rename methods                                                | 2           |
+| 57 ; 62 ; 67 ; 72        | Useless parenthesis                                                                                                               | UselessParetheses            | Remove them                                                   | 4           |
+| 86 ; 107 ; 128 ; 149 ; 171 | Linguistics Antipattern - The getter 'getCheckingWithdrawInput' should not return void linguistically                             | LinguisticNaming             | Rename method                                                 | 5           |
+| 90 ; 101 ; 111 ; 119 | Literals duplicated                                                                                                               | AvoidDuplicateLiterals       | Store them in a variable                                      | 4           |
+| 92 ; 113 ; 180       | Local variable could be made final                                                                                                | LocalVariableCouldBeFinal    | Add final in declaration                                      | 3           |
+| 171                   | The method 'getTransferInput(String)' has a cognitive complexity of 24, current threshold is 15                                   | CognitiveComplexity          | Reduce method complexity - consider splitting functionalities | 1           |
+| 171                   | The method 'getTransferInput(String)' has a cyclomatic complexity of 15.                                                          | CyclomaticComplexity         | Reduce cyclomatic complexity                                  | 1           |
+| 175                   | Position literals first in String comparisons                                                                                     | LiteralsFirstInComparisons   | Swap comparison                                               | 3           |
 
 ## ATM.java 
 If time done
