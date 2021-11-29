@@ -22,41 +22,47 @@ public final class OptionMenu {
 	/**
 	 * Scanner to read input from user
 	 */
-	private final Scanner menuInput;
+	transient private final Scanner menuInput;
 
 	/**
 	 * Format to be used to display amounts of money
 	 */
-	private final DecimalFormat moneyFormat;
+	transient private final DecimalFormat moneyFormat;
 
 	/**
 	 * Map Interface to store costumer data
 	 */
-	private final Map<Integer, Account> accountsData;
+	transient private final Map<Integer, Account> accountsData;
 
 	/**
 	 * Inital amount to have on your checking when opening an account
 	 */
-	private final double initialCheckingAmount = 0;
+	static private final double INIT_CHECKING = 0;
 
 	/**
 	 * Inital amount to have on your saving when opening an account
 	 */
-	private final double initialSavingAmount = 0;
+	static private final double INIT_SAVING = 0;
 
 	/**
 	 * Stop sequence to be typed by user to exit process
 	 */
-	private final String stopSequence = "S";
+	static private final String STOP_SEQUENCE = "S";
 
 	/**
 	 * String for invalid choice
 	 */
-	private final String invalidChoice = "\nInvalid Choice.";
+
+	static private final String INVALID_CHOICE = "\nInvalid Choice.";
 	/**
 	 * String waiting for user choice input
 	 */
-	private final String choice = "\nChoice: ";
+	static private final String CHOICE = "\nChoice: ";
+
+	/**
+	 * String meaning to leave current process
+	 */
+	static private final String EXIT = "EXIT";
 
 	/**
 	 * private constructor
@@ -81,8 +87,8 @@ public final class OptionMenu {
 	 * @param choice string of the choice
 	 * @return formatted string to be output to user
 	 */
-	private String typeChoice(final int i, final String choice){
-		return " Type " + i + " - " + choice;
+	private String typeChoice(final int number, final String choice){
+		return " Type " + number + " - " + choice;
 	}
 
 	/**
@@ -91,8 +97,8 @@ public final class OptionMenu {
 	 * @param choice string of the choice
 	 * @return formatted string to be output to user
 	 */
-	private String typeChoice(final String s, final String choice){
-		return " Type " + s + " - " + choice;
+	private String typeChoice(final String sequence, final String choice){
+		return " Type " + sequence + " - " + choice;
 	}
 
 	/**
@@ -104,48 +110,50 @@ public final class OptionMenu {
 	public void login() throws IOException {
 		// Prepare loop variables
 		boolean end = false;
-		String customerNumberInput = "";
-		int customerNumber = 0;
-		String pinNumberInput = "";
-		int pinNumber = 0;
+		String customerNumberStr;
+		int customerNumber;
+		String pinNumberStr;
+		int pinNumber;
 
 		while (!end) {
 			try {
 				System.out.println();
-				System.out.print(typeChoice(stopSequence, "Exit"));
+				System.out.print(typeChoice(STOP_SEQUENCE, EXIT));
 				System.out.print("\nEnter your customer number: ");
 
 				// Check if stop sequence or not. If not try to read customer number.
-				customerNumberInput = menuInput.nextLine();
-				if(stopSequence.equals(customerNumberInput))
-					return;
-				customerNumber = Integer.parseInt(customerNumberInput);
+				customerNumberStr = menuInput.nextLine();
+				if(!STOP_SEQUENCE.equals(customerNumberStr)){
+					customerNumber = Integer.parseInt(customerNumberStr);
 
-				System.out.print("\nEnter your PIN number: ");
+					System.out.print("\nEnter your PIN number: ");
 
-				// Check if stop sequence or not. If not try to read pin number.
-				pinNumberInput = menuInput.nextLine();
-				if(stopSequence.equals(pinNumberInput))
-					return;
-				pinNumber = Integer.parseInt(pinNumberInput);;
+					// Check if stop sequence or not. If not try to read pin number.
+					pinNumberStr = menuInput.nextLine();
+					if(STOP_SEQUENCE.equals(pinNumberStr))
+						return;
+					pinNumber = Integer.parseInt(pinNumberStr);
 
-				// Prepare loop variables
-				Iterator iterator = accountsData.entrySet().iterator();
-				Map.Entry pair;
-				Account acc;
-				while (iterator.hasNext()) {
-					pair = (Map.Entry) iterator.next();
-					acc = (Account) pair.getValue();
-					// See if input data is correct
-					if (accountsData.containsKey(customerNumber) && pinNumber == acc.getPinNumber()) {
-						// If yes continue with choosing account type
-						chooseAccountType(acc);
-						end = true;
-						break;
+					// Prepare loop variables
+					Iterator iterator = accountsData.entrySet().iterator();
+					Map.Entry pair;
+					Account acc;
+					while (iterator.hasNext()) {
+						pair = (Map.Entry) iterator.next();
+						acc = (Account) pair.getValue();
+						// See if input data is correct
+						if (accountsData.containsKey(customerNumber) && pinNumber == acc.getPinNumber()) {
+							// If yes continue with choosing account type
+							chooseAccountType(acc);
+							end = true;
+							break;
+						}
 					}
-				}
-				if (!end) {
-					System.out.println("\nWrong Customer Number or Pin Number");
+					if (!end) {
+						System.out.println("\nWrong Customer Number or Pin Number");
+					}
+				} else {
+					end = true;
 				}
 			} catch (NumberFormatException e) {
 				System.out.println("\nInvalid Character(s). Only Numbers or exit sequence.");
@@ -171,8 +179,8 @@ public final class OptionMenu {
 				System.out.println("\nSelect the account you want to access: ");
 				System.out.println(typeChoice(1,"Checkings Account"));
 				System.out.println(typeChoice(2,"Savings Account"));
-				System.out.println(typeChoice(3,"Exit"));
-				System.out.print(choice);
+				System.out.println(typeChoice(3,EXIT));
+				System.out.print(CHOICE);
 
 				// Get user Input
 				selection = menuInput.nextInt();
@@ -190,10 +198,10 @@ public final class OptionMenu {
 					end = true;
 					break;
 				default:
-					System.out.println(invalidChoice);
+					System.out.println(INVALID_CHOICE);
 				}
 			} catch (InputMismatchException e) {
-				System.out.println(invalidChoice);
+				System.out.println(INVALID_CHOICE);
 				menuInput.next();
 			}
 		}
@@ -221,8 +229,8 @@ public final class OptionMenu {
 				System.out.println(typeChoice(2,"Withdraw Funds"));
 				System.out.println(typeChoice(3,"Deposit Funds"));
 				System.out.println(typeChoice(4,"Transfer Funds"));
-				System.out.println(typeChoice(5,"Exit"));
-				System.out.print(choice);
+				System.out.println(typeChoice(5,EXIT));
+				System.out.print(CHOICE);
 
 				int selection = menuInput.nextInt();
 
@@ -243,10 +251,10 @@ public final class OptionMenu {
 					end = true;
 					break;
 				default:
-					System.out.println(invalidChoice);
+					System.out.println(INVALID_CHOICE);
 				}
 			} catch (InputMismatchException e) {
-				System.out.println(invalidChoice);
+				System.out.println(INVALID_CHOICE);
 				menuInput.next();
 			}
 		}
@@ -274,8 +282,8 @@ public final class OptionMenu {
 				System.out.println(typeChoice(2,"Withdraw Funds"));
 				System.out.println(typeChoice(3,"Deposit Funds"));
 				System.out.println(typeChoice(4,"Transfer Funds"));
-				System.out.println(typeChoice(5,"Exit"));
-				System.out.print(choice);
+				System.out.println(typeChoice(5,EXIT));
+				System.out.print(CHOICE);
 				int selection = menuInput.nextInt();
 				switch (selection) {
 				case viewBalanceNo:
@@ -294,10 +302,10 @@ public final class OptionMenu {
 					end = true;
 					break;
 				default:
-					System.out.println(invalidChoice);
+					System.out.println(INVALID_CHOICE);
 				}
 			} catch (InputMismatchException e) {
-				System.out.println(invalidChoice);
+				System.out.println(INVALID_CHOICE);
 				menuInput.next();
 			}
 		}
@@ -318,12 +326,12 @@ public final class OptionMenu {
 		while (!end) {
 			try {
 				System.out.println();
-				System.out.print(typeChoice(stopSequence, "Exit"));
+				System.out.print(typeChoice(STOP_SEQUENCE, EXIT));
 				System.out.println("\nEnter your customer number ");
 
 				// Read new customer number
 				customerNumberInput = menuInput.nextLine();
-				if(stopSequence.equals(customerNumberInput))
+				if(STOP_SEQUENCE.equals(customerNumberInput))
 					return;
 				customerNumber = Integer.parseInt(customerNumberInput);
 
@@ -339,7 +347,7 @@ public final class OptionMenu {
 					System.out.println("\nThis customer number cannot be chosen. Try a different one.");
 				}
 			} catch (NumberFormatException e) {
-				System.out.println(invalidChoice);
+				System.out.println(INVALID_CHOICE);
 				menuInput.next();
 			}
 		}
@@ -351,7 +359,7 @@ public final class OptionMenu {
 
 				// Read new customer pin
 				pinNumberInput = menuInput.nextLine();
-				if(stopSequence.equals(pinNumberInput))
+				if(STOP_SEQUENCE.equals(pinNumberInput))
 					return;
 				pinNumber = Integer.parseInt(pinNumberInput);
 
@@ -373,7 +381,7 @@ public final class OptionMenu {
 				menuInput.next();
 			}
 		}
-		accountsData.put(customerNumber, new Account(customerNumber, pinNumber, initialCheckingAmount, initialSavingAmount));
+		accountsData.put(customerNumber, new Account(customerNumber, pinNumber, INIT_CHECKING, INIT_SAVING));
 		System.out.println("\nYour new account has been successfuly registered!");
 		System.out.println("\nRedirecting to login.............");
 
@@ -401,8 +409,8 @@ public final class OptionMenu {
 				System.out.println();
 				System.out.println(typeChoice(loginNo, "Login"));
 				System.out.println(typeChoice(createAccountNo, "Create Account"));
-				System.out.println(typeChoice(exitNo, "Exit"));
-				System.out.print(choice);
+				System.out.println(typeChoice(exitNo, EXIT));
+				System.out.print(CHOICE);
 				int choice = menuInput.nextInt();
 				menuInput.nextLine();
 				switch (choice) {
@@ -416,10 +424,10 @@ public final class OptionMenu {
 					end = true;
 					break;
 				default:
-					System.out.println(invalidChoice);
+					System.out.println(INVALID_CHOICE);
 				}
 			} catch (InputMismatchException e) {
-				System.out.println(invalidChoice);
+				System.out.println(INVALID_CHOICE);
 				menuInput.next();
 			}
 		}
