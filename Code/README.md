@@ -3,13 +3,13 @@ The students in this team did not have an own java project at hand, because they
 locations or already have been reviewed using an automatic tool. It was decided that the students look at a small project available on Github.
 After a search for a suitable project it was decided to look at the source code available at: https://github.com/rajyash1904/ATM-Machine
 
-This Project simulates an Automated Teller Machine.
+This project simulates an Automated Teller Machine.
 Information of the customers taken into account are: **Account Number**, **Password**, and **Bank Account**. 
 Operations supported by the ATM are:  **withdraw**, **deposit**, **view account balance** and **transfer funds**.
 The ATM is composed by three simple classes: 
-- **Account**: It provides attributes and methods to support user operations (withdraw, deposit, balance's view and transfer funds).
-- **ATM**: It is the main project entry point.
-- **OptionMenu**: It supports the user interaction with the ATM machine. The interaction is done via simple command line interface.
+- **Account** provides attributes and methods to support user operations (withdraw, deposit, balance's view and transfer funds).
+- **ATM** is the main project entry point.
+- **OptionMenu** supports the user interaction with the ATM machine. The interaction is done via simple command line interface.
 
 ## Files under Review
 Since the project is very simple, objective of the review would be to review the implementation of all the two above mentioned classes, which encapsule functionality: 
@@ -39,7 +39,7 @@ During the manual review the reviewers will focus on:
 
 
 ## PMD
-As suggested in the project specification, the [PMD](https://pmd.github.io) tool is used to discover faults in the code. 
+As suggested in the project specification, the [PMD](https://pmd.github.io) tool is used to discover defects in the code. 
 When running the PMD tool, the following set of predefined code quality dimensions are taken into account:
 - bestpractices
 - codestyle
