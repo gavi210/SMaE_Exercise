@@ -1,7 +1,7 @@
 # Project Description
 The students in this team did not have an own java project at hand, because they were either stored in unavailable 
 locations or already have been reviewed using an automatic tool. It was decided that the students look at a small project available on Github.
-After a search for a suitable project it was decided to look at the source code available at: https://github.com/rajyash1904/ATM-Machine
+After a search for a suitable project it was decided to look at the source code available at: https://github.com/rajyash1904/ATM-Machine .
 
 This project simulates an Automated Teller Machine.
 Information of the customers taken into account are: **Account Number**, **Password**, and **Bank Account**. 
@@ -121,16 +121,22 @@ From an initial view of the class emerges that the code is not well structured a
 
 ## Summary of Recomendations
 
-The defects found by the automatic tool were mostly code cosmetics and adding documentation.
-It is rather tedious to fix those defects but are definitely recommended to be fixedto reduce technical debt.
-The other and more interesting defects found were: A missing Constructor, not to terminate the JVM or to reduce code complexity.
+The defects found by the automatic tool were mostly code cosmetics and lack of documentation.
+It is rather tedious to fix those defects but are definitely recommended to be fixed to reduce technical debt.
+The other and more interesting defects found were: 
+- missing Constructor,
+- JVM not terminating (infinite loop).
+- code complexity.
+  
 The former two are easy to fix, but the latter is a more complicated topic.
 Automatic tools are great for generating more objective measures about complexities of functions.
 In the end it depends on the reviewer and context, whether action will be taken or not.
 In our study, Maximilian did not choose to lower complexity, because the threshold was too low in his opinion.
 Riccardo on the other hand chose to lower the cognitive complexity of the function.
 In such cases it could be helpful to have certain guidelines for reviewing code inside an organisation.
-Such guidelines could include for example the maximal allowed complexity for functions or the dimensions of the rulesets used by automatic tools.
+Such guidelines could include: 
+- maximal function's complexity 
+- dimensions of code defects investigated by automatic review tools.
 
 Defects found manually in the code belong mainly to three categories: Logic, Code Clarity and Ease of Modification. 
 For each category, follows a summary of the most important recommendations: 
@@ -147,11 +153,12 @@ The student Riccardo Rigoni spent 2h reviewing the code: 1.5h for the manual rev
 As could be noticed from the tables above the automatic tool succeedes in finding subdle errors, such as ***unused declaration***, ***local variable could be made final*** or missing documentation.
 Checking coding style with automated tools can be tedious, because fixing an error with one's own style could still be insufficient for the tool, leading to another additional review step.
 Such a tool could be recommended to use before the manual review to find sudble errors and checking best practices, so one doesn't have to focus on them during manual review, which is time intensive.
-If such tool are used reoccuring spending time on customizing the rulesets is advised to avoid unnecessary warnings.
+Furthermore, developing a custom rulesets based on the adopted developers' best pratices is advised to avoid unnecessary warnings.
 
 Manual review allows to discover more complicated defects like possible security threats (**customerNumber** modifiable) and bad architectural design.
 Through manual review defects were found, which were not detected by the automatic tool.
-This shows that the process of manual review indispendable compared to automatic review.
+This shows that the process of manual review is complementary to automatic review.
+
 Timewise, we saw that the aspect of manually reviewing the code takes at least as long and but often longer than assisted reviewing.
 We asked ourselves whether we could shorten the time of manually reviewing the code by conducting the assisted review first.
 Unfortunately, from our investigation it cannot be concluded whether doing a review assisted by an automatic tool before the manual review can save significant time.

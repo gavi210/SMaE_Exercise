@@ -8,14 +8,14 @@ import java.util.Scanner;
 
 /**
  * Class for the option menu of a simulated ATM. It is possible
- * to create and login into an account. Further if one is logged in,
+ * to create and login into an account. Once logged in, 
  * it is possible to view balance, withdraw, deposit or transfer funds
  * using checking or savings account.
  */
 public final class OptionMenu {
 
 	/**
-	 * Single instance
+	 * Singleton (design pattern)
 	 */
 	private static OptionMenu instance = new OptionMenu();
 
